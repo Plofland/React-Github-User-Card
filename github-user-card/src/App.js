@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
+
+const GitHubUserApp = createGlobalStyle`
+* {
+  color: white;
+}
+body {
+  background-color: steelblue;
+}
+`;
 
 const Heading = styled.div``;
 
@@ -15,11 +24,11 @@ const ProfileInfo = styled.div``;
 const UserInfo = styled.div``;
 
 const teamMembers = [
-  { name: 'April Ashby', login: 'aprilissy', data: {} },
-  { name: 'Emily Ryan', login: 'emilyr027', data: {} },
-  { name: 'Juan Ruiz', login: 'ruizaj13', data: {} },
-  { name: 'Peter Lofland', login: 'plofland', data: {} },
-  { name: 'Oscar  Figueroa', login: 'oscfig', data: {} }
+  { name: 'April Ashby', login: 'aprilissy' },
+  { name: 'Emily Ryan', login: 'emilyr027' },
+  { name: 'Juan Ruiz', login: 'ruizaj13' },
+  { name: 'Peter Lofland', login: 'plofland' },
+  { name: 'Oscar  Figueroa', login: 'oscfig' }
 ];
 
 export default class App extends Component {
@@ -31,21 +40,21 @@ export default class App extends Component {
   componentDidMount() {
     // const developers = [...teamMembers];
 
-    for (let i = 0; i < teamMembers.length; i++) {
+    for (let i in teamMembers) {
       axios
         .get(`https://api.github.com/users/${teamMembers[i].login}`)
         .then((res) => {
           console.log(res);
 
           this.setState({
-            data: res.data
+            // ...teamMembers,
 
-            // image: res.data.avatar_url,
-            // bio: res.data.bio,
-            // location: res.data.location,
-            // url: res.data.html_url,
-            // followers: res.data.followers,
-            // following: res.data.following
+            image: res.data.avatar_url,
+            bio: res.data.bio,
+            location: res.data.location,
+            url: res.data.html_url,
+            followers: res.data.followers,
+            following: res.data.following
           });
           console.log(teamMembers);
           // developers[i].image = res.data.avatar_url,
@@ -83,9 +92,11 @@ export default class App extends Component {
   render() {
     return (
       <>
+        <GitHubUserApp />
         <Heading>Github Track Team</Heading>
-        <p>{this.state.name}</p>
+        {/* <h3>{this.teamMembers.name}</h3> */}
         <img src={this.state.image} alt="profile avatar" />
+        <p>Name: {this.state.name}</p>
         <p>Bio: {this.state.bio}</p>
         <p>Username: {this.state.login}</p>
         <p>Location: {this.state.location}</p>
