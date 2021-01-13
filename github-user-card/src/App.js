@@ -15,11 +15,11 @@ const ProfileInfo = styled.div``;
 const UserInfo = styled.div``;
 
 const teamMembers = [
-  { name: 'April Ashby', login: 'aprilissy' },
-  { name: 'Emily Ryan', login: 'emilyr027' },
-  { name: 'Juan Ruiz', login: 'ruizaj13' },
-  { name: 'Peter Lofland', login: 'plofland' },
-  { name: 'Oscar  Figueroa', login: 'oscfig' }
+  { name: 'April Ashby', login: 'aprilissy', data: {} },
+  { name: 'Emily Ryan', login: 'emilyr027', data: {} },
+  { name: 'Juan Ruiz', login: 'ruizaj13', data: {} },
+  { name: 'Peter Lofland', login: 'plofland', data: {} },
+  { name: 'Oscar  Figueroa', login: 'oscfig', data: {} }
 ];
 
 export default class App extends Component {
@@ -29,22 +29,25 @@ export default class App extends Component {
   };
 
   componentDidMount() {
-    const developers = [...teamMembers];
+    // const developers = [...teamMembers];
 
-    for (let i in teamMembers) {
+    for (let i = 0; i < teamMembers.length; i++) {
       axios
         .get(`https://api.github.com/users/${teamMembers[i].login}`)
         .then((res) => {
           console.log(res);
 
-          this.state({
-            image: res.data.avatar_url,
-            bio: res.data.bio,
-            location: res.data.location,
-            url: res.data.html_url,
-            followers: res.data.followers,
-            following: res.data.following
+          this.setState({
+            data: res.data
+
+            // image: res.data.avatar_url,
+            // bio: res.data.bio,
+            // location: res.data.location,
+            // url: res.data.html_url,
+            // followers: res.data.followers,
+            // following: res.data.following
           });
+          console.log(teamMembers);
           // developers[i].image = res.data.avatar_url,
           // developers[i].bio = res.data.bio,
           // developers[i].location = res.data.location,
